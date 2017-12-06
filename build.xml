@@ -1,0 +1,132 @@
+<project name="test" default="compile" xmlns:sf="antlib:com.salesforce">
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="lib/ant-contrib-1.0b3.jar"/>
+		</classpath>
+	</taskdef>
+    <macrodef name="git">
+		<attribute name="args" />
+		<sequential>
+			<exec executable="git" outputproperty="gitx.result">
+				<arg value="log" />
+				<arg value="--pretty=format:" />
+				<arg value="--name-only" />
+				<arg value="--since='@{args}'" />
+			</exec>
+			<echo file="target.txt" append="false">${gitx.result}</echo>
+			<replace file="target.txt">
+				<replacetoken>src/classes/</replacetoken>
+				<replacevalue></replacevalue>
+			</replace>
+			<replace file="target.txt">
+				<replacetoken>src/pages/</replacetoken>
+				<replacevalue></replacevalue>
+			</replace>
+			
+			<exec executable="git">
+				<arg value="pull" />
+			</exec>
+		</sequential>
+	</macrodef>
+	<property file="build.properties"/>
+	
+    <target name="gitStatus">
+		<input message="Please enter date/time from which you want the tracking?" addproperty="gitx.since" />
+        <git args="${gitx.since}" />
+    </target>
+
+	<loadfile property="contents" srcfile="target.txt"/>
+
+	<target name="compile">
+		<delete dir="target"/>
+		<for param="file" list="${contents}" delimiter="${line.separator}">
+			<sequential>
+				<if>
+					<and>
+						<contains string="@{file}" substring=".cls"/>
+						<not>
+							<contains string="@{file}" substring=".cls-meta.xml"/>
+						</not>
+					</and>
+					<then>
+						<copy file="./src/classes/@{file}" tofile="./target/classes/@{file}" overwrite="true"/>
+						<copy file="./src/classes/@{file}-meta.xml" tofile="./target/classes/@{file}-meta.xml" overwrite="true"/>
+					</then>
+					<elseif>
+						<and>
+							<contains string="@{file}" substring=".page"/>
+							<not>
+								<contains string="@{file}" substring=".page-meta.xml"/>
+							</not>
+						</and>
+						<then>
+							<copy file="./src/pages/@{file}" tofile="./target/pages/@{file}" overwrite="true"/>
+							<copy file="./src/pages/@{file}-meta.xml" tofile="./target/pages/@{file}-meta.xml" overwrite="true"/>
+						</then>
+					</elseif>
+				</if>
+			</sequential>
+		</for>
+    </target>
+
+	<target name="packager">
+        <resourcecount property="clsCount">
+            <fileset id="clsMatch" dir="./target">
+                <patternset id="clsM">
+                    <include name="**/*.cls"/>
+                </patternset>
+            </fileset>
+        </resourcecount>
+        <resourcecount property="pageCount">
+            <fileset id="pageMatch" dir="./target">
+                <patternset id="pageM">
+                    <include name="**/*.page"/>
+                </patternset>
+            </fileset>
+        </resourcecount>
+        <echo file="./target/package.xml" append="false">&lt;?xml version="1.0" encoding="UTF-8"?></echo>
+        <echo file="./target/package.xml" append="true">
+    &lt;Package xmlns="http://soap.sforce.com/2006/04/metadata"></echo>
+
+        <if>
+            <resourcecount refid="clsMatch" when="greater" count="0" />
+            <then>
+                <echo file="./target/package.xml" append="true">
+    &lt;types>
+       &lt;members>*&lt;/members>
+       &lt;name>ApexClass&lt;/name>
+    &lt;/types></echo>
+            </then>
+        </if>
+
+        <if>
+            <resourcecount refid="pageMatch" when="greater" count="0" />
+            <then>
+                <echo file="./target/package.xml" append="true">
+    &lt;types>
+       &lt;members>*&lt;/members>
+       &lt;name>ApexPage&lt;/name>
+    &lt;/types></echo>
+            </then>
+        </if>
+
+<echo file="./target/package.xml" append="true">
+    &lt;version>39.0&lt;/version>
+&lt;/Package>
+</echo>
+   </target>
+
+    <target name="ret">
+    	<mkdir dir="src"/>
+    	<sf:retrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" retrieveTarget="src" unpackaged="package.xml"/>
+    </target>
+
+    <target name="deploy">
+		<echo>${sf.maxPoll}</echo>
+    	<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="target" rollbackOnError="true"/>
+    </target>
+
+	<target name="sync" depends="gitStatus,compile,packager,deploy">
+		
+    </target>
+</project>
