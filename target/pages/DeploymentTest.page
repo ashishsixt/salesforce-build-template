@@ -1,3 +1,0 @@
-<apex:page controller="DeploymentTestCtrl">
-    <apex:outputPanel >{!strMsg} Test</apex:outputPanel>
-</apex:page>
