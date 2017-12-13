@@ -13,12 +13,12 @@
 				<arg value="--name-only" />
 				<arg value="--since='@{args}'" />
 			</exec>
-			<echo file="target.txt" append="false">${gitx.result}</echo>
-			<replace file="target.txt">
+			<echo file="Help.txt" append="false">${gitx.result}</echo>
+			<replace file="Help.txt">
 				<replacetoken>src/classes/</replacetoken>
 				<replacevalue></replacevalue>
 			</replace>
-			<replace file="target.txt">
+			<replace file="Help.txt">
 				<replacetoken>src/pages/</replacetoken>
 				<replacevalue></replacevalue>
 			</replace>
@@ -35,10 +35,11 @@
         <git args="${gitx.since}" />
     </target>
 
-	<loadfile property="contents" srcfile="target.txt"/>
+	<loadfile property="contents" srcfile="Help.txt"/>
 
 	<target name="compile">
 		<delete dir="target"/>
+		<mkdir dir="target"/>
 		<for param="file" list="${contents}" delimiter="${line.separator}">
 			<sequential>
 				<if>
