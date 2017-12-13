@@ -10,6 +10,11 @@
 			<pathelement location="/home/travis/build/santoshkpradhan/salesforce-build-template/lib/ant-contrib-1.0b3.jar"/>
 		</classpath>
 	</taskdef>
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="lib/ant-contrib-1.0b3.jar"/>
+		</classpath>
+	</taskdef>
 	<!-- <target name="download-contrib" unless="offline">
 		<mkdir dir="lib"/>
 		<get src="http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"
@@ -174,6 +179,9 @@
     	<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="target" rollbackOnError="true"/>
     </target>
 
+	<target name="validate" depends="gitStatus,compile,packager">
+		
+    </target>
 	<target name="syncM" depends="gitStatus,compile,packager,deploy">
 		
     </target>
