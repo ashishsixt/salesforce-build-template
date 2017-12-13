@@ -13,12 +13,13 @@
 				<arg value="--name-only" />
 				<arg value="--since='@{args}'" />
 			</exec>
-			<echo file="Help.txt" append="false">${gitx.result}</echo>
-			<replace file="Help.txt">
+			<echo>Changed Files: \n ${gitx.result}</echo>
+			<echo file="target.txt" append="false">${gitx.result}</echo>
+			<replace file="target.txt">
 				<replacetoken>src/classes/</replacetoken>
 				<replacevalue></replacevalue>
 			</replace>
-			<replace file="Help.txt">
+			<replace file="target.txt">
 				<replacetoken>src/pages/</replacetoken>
 				<replacevalue></replacevalue>
 			</replace>
@@ -35,7 +36,7 @@
         <git args="${gitx.since}" />
     </target>
 
-	<loadfile property="contents" srcfile="Help.txt"/>
+	<loadfile property="contents" srcfile="target.txt"/>
 
 	<target name="compile">
 		<delete dir="target"/>
@@ -50,8 +51,8 @@
 						</not>
 					</and>
 					<then>
-						<copy file="./src/classes/@{file}" tofile="./target/classes/@{file}" overwrite="true"/>
-						<copy file="./src/classes/@{file}-meta.xml" tofile="./target/classes/@{file}-meta.xml" overwrite="true"/>
+						<copy file="./src/classes/@{file}" tofile="./target/classes/@{file}" overwrite="true" failonerror="false"/>
+						<copy file="./src/classes/@{file}-meta.xml" tofile="./target/classes/@{file}-meta.xml" overwrite="true" failonerror="false"/>
 					</then>
 					<elseif>
 						<and>
@@ -61,8 +62,8 @@
 							</not>
 						</and>
 						<then>
-							<copy file="./src/pages/@{file}" tofile="./target/pages/@{file}" overwrite="true"/>
-							<copy file="./src/pages/@{file}-meta.xml" tofile="./target/pages/@{file}-meta.xml" overwrite="true"/>
+							<copy file="./src/pages/@{file}" tofile="./target/pages/@{file}" overwrite="true" failonerror="false"/>
+							<copy file="./src/pages/@{file}-meta.xml" tofile="./target/pages/@{file}-meta.xml" overwrite="true" failonerror="false"/>
 						</then>
 					</elseif>
 				</if>
