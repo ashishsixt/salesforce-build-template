@@ -191,7 +191,7 @@
 
     <target name="deployFromLocal">
 		<echo>${sf.maxPoll}</echo>
-    	<sf:deploy username="pradhan.santosh@circleci.com" password="CircleTest1" serverurl="https://login.salesforce.com" maxPoll="${sf.maxPoll}" deployRoot="target" rollbackOnError="true"/>
+    	<sf:deploy username="pradhan.santosh@travisci.com" password="TravisTest1" serverurl="https://login.salesforce.com" maxPoll="${sf.maxPoll}" deployRoot="target" rollbackOnError="true"/>
     </target>
 
 	<target name="validate" depends="gitStatus,compile,packager">
