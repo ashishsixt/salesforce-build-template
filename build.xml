@@ -39,6 +39,7 @@
 			</exec>
 			<echo>Changed Files: </echo>
 			<echo>${gitx.result}</echo>
+			<touch file="myfile"/>
 			<echo file="target.txt" append="false">${gitx.result}</echo>
 			<replace file="target.txt">
 				<replacetoken>src/classes/</replacetoken>
