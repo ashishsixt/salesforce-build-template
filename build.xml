@@ -4,6 +4,12 @@
 			<pathelement location="lib/ant-contrib-1.0b3.jar"/>
 		</classpath>
 	</taskdef>
+	<target name="download-ivy" unless="offline">
+		<mkdir dir="lib"/>
+		<get src="http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"
+       dest="lib/ant-contrib-1.0b3.jar"
+       usetimestamp="true"/>
+	</target>
     <macrodef name="git">
 		<attribute name="args" default="6 hours ago"/>
 		<sequential>
