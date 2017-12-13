@@ -175,7 +175,7 @@
 
     <target name="deploy">
 		<echo>${sf.maxPoll}</echo>
-    	<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="target" rollbackOnError="true"/>
+    	<sf:deploy username="${env.masterUN}" password="${env.masterPWD}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="target" rollbackOnError="true"/>
     </target>
 
 	<target name="validate" depends="gitStatus,compile,packager">
