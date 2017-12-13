@@ -47,11 +47,12 @@
 				<replacetoken>src/pages/</replacetoken>
 				<replacevalue></replacevalue>
 			</replace>
+			
+			<exec executable="git">
+				<arg value="pull" />
+			</exec>
 		</sequential>
 	</macrodef>
-	<!-- <exec executable="git">
-				<arg value="pull" />
-			</exec> -->
     <macrodef name="git">
 		<attribute name="args" default="6 hours ago"/>
 		<sequential>
@@ -72,10 +73,6 @@
 				<replacetoken>src/pages/</replacetoken>
 				<replacevalue></replacevalue>
 			</replace>
-			
-			<exec executable="git">
-				<arg value="pull" />
-			</exec>
 		</sequential>
 	</macrodef>
 	<property file="build.properties"/>
