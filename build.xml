@@ -23,7 +23,7 @@
 		<taskdef resource="net/sf/antcontrib/antlib.xml" 
            classpathref="contrib.path"/>
 	</target> -->
-    <macrodef name="git">
+	<macrodef name="gitSince">
 		<attribute name="args" default="6 hours ago"/>
 		<sequential>
 			<exec executable="git" outputproperty="gitx.result">
@@ -31,6 +31,32 @@
 				<arg value="--pretty=format:" />
 				<arg value="--name-only" />
 				<arg value="--since='@{args}'" />
+			</exec>
+			<echo>Changed Files: \n ${gitx.result}</echo>
+			<echo file="target.txt" append="false">${gitx.result}</echo>
+			<replace file="target.txt">
+				<replacetoken>src/classes/</replacetoken>
+				<replacevalue></replacevalue>
+			</replace>
+			<replace file="target.txt">
+				<replacetoken>src/pages/</replacetoken>
+				<replacevalue></replacevalue>
+			</replace>
+			
+			<exec executable="git">
+				<arg value="pull" />
+			</exec>
+		</sequential>
+	</macrodef>
+    <macrodef name="git">
+		<attribute name="args" default="6 hours ago"/>
+		<sequential>
+			<exec executable="git" outputproperty="gitx.result">
+				<arg value="log" />
+				<arg value="-p" />
+				<arg value="-1" />
+				<arg value="--pretty=format:" />
+				<arg value="--name-only" />
 			</exec>
 			<echo>Changed Files: \n ${gitx.result}</echo>
 			<echo file="target.txt" append="false">${gitx.result}</echo>
