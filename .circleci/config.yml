@@ -1,5 +1,0 @@
-version: 2
-test:
- override:
- - ant -f build/build.xml -lib build/lib/ test:
- timeout: 600
