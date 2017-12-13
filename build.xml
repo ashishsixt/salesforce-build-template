@@ -28,6 +28,7 @@
 		<taskdef resource="net/sf/antcontrib/antlib.xml" 
            classpathref="contrib.path"/>
 	</target> -->
+	<touch file="target.txt"/>
 	<macrodef name="gitSince">
 		<attribute name="args" default="6 hours ago"/>
 		<sequential>
@@ -39,7 +40,6 @@
 			</exec>
 			<echo>Changed Files: </echo>
 			<echo>${gitx.result}</echo>
-			<touch file="target.txt"/>
 			<echo file="target.txt" append="false">${gitx.result}</echo>
 			<replace file="target.txt">
 				<replacetoken>src/classes/</replacetoken>
