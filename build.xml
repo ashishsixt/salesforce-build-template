@@ -1,13 +1,13 @@
 <project name="test" default="compile" xmlns:sf="antlib:com.salesforce">
-	<!-- <taskdef resource="net/sf/antcontrib/antlib.xml">
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
-			<pathelement location="lib/ant-contrib-1.0b3.jar"/>
+			<pathelement location="/home/travis/build/santoshkpradhan/salesforce-build-template/lib/ant-contrib-1.0b3.jar"/>
 		</classpath>
-	</taskdef> -->
-	<target name="download-contrib" unless="offline">
+	</taskdef>
+	<!-- <target name="download-contrib" unless="offline">
 		<mkdir dir="lib"/>
 		<get src="http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"
-       dest="${user.home}/.ant/lib"
+       dest="${user.home}/.ant/lib/ant-contrib-1.0b3.jar"
        usetimestamp="true"/>
 	</target>
 	<target name="init-contrib" depends="download-contrib">
@@ -16,7 +16,7 @@
 		</path>
 		<taskdef resource="net/sf/antcontrib/antlib.xml" 
            classpathref="contrib.path"/>
-	</target>
+	</target> -->
     <macrodef name="git">
 		<attribute name="args" default="6 hours ago"/>
 		<sequential>
@@ -45,8 +45,9 @@
 	<property file="build.properties"/>
 	
     <target name="gitStatus">
-		<input message="Please enter date/time from which you want the tracking?" addproperty="gitx.since" />
-        <git args="${gitx.since}" />
+		<!-- <input message="Please enter date/time from which you want the tracking?" addproperty="gitx.since" /> -->
+        <!-- args="${gitx.since}"  -->
+		<git />
     </target>
 
 	<loadfile property="contents" srcfile="target.txt"/>
@@ -144,7 +145,7 @@
 	<target name="syncM" depends="gitStatus,compile,packager,deploy">
 		
     </target>
-	<target name="sync" depends="init-contrib,compile,packager,deploy">
+	<target name="sync" depends="gitStatus,compile,packager,deploy">
 		
     </target>
 </project>
