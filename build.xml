@@ -90,6 +90,8 @@
 	<target name="compile">
 		<delete dir="target"/>
 		<mkdir dir="target"/>
+		<echo>DEPLOYMENT COMPONENTS</echo>
+		<echo>${contents}</echo>
 		<for param="file" list="${contents}" delimiter="${line.separator}">
 			<sequential>
 				<if>
