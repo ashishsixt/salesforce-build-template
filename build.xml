@@ -4,11 +4,18 @@
 			<pathelement location="lib/ant-contrib-1.0b3.jar"/>
 		</classpath>
 	</taskdef> -->
-	<target name="download-ivy" unless="offline">
+	<target name="download-contrib" unless="offline">
 		<mkdir dir="lib"/>
 		<get src="http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"
        dest="lib/ant-contrib-1.0b3.jar"
        usetimestamp="true"/>
+	</target>
+	<target name="init-contrib" depends="download-contrib">
+		<path id="contrib.path">
+    		<fileset dir="lib" includes="*.jar"/>
+		</path>
+		<taskdef resource="net/sf/antcontrib/antlib.xml" 
+           classpathref="contrib.path"/>
 	</target>
     <macrodef name="git">
 		<attribute name="args" default="6 hours ago"/>
@@ -137,7 +144,7 @@
 	<target name="syncM" depends="gitStatus,compile,packager,deploy">
 		
     </target>
-	<target name="sync" depends="download-ivy,compile,packager,deploy">
+	<target name="sync" depends="init-contrib,compile,packager,deploy">
 		
     </target>
 </project>
