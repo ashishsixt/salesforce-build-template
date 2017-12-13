@@ -1,5 +1,8 @@
 <project name="test" default="compile" xmlns:sf="antlib:com.salesforce">
-
+	<property environment="env"/>
+	<property name="sf.username"      value="${env.stagingUN}"/>
+        <property name="sf.password"      value="${env.stagingPWD}"/>
+        <property name="sf.serverurl"      value="${env.stagingURL}"/>
 	<taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
 		<classpath>
 			<pathelement location="/home/travis/build/santoshkpradhan/salesforce-build-template/lib/ant-salesforce.jar"/>
