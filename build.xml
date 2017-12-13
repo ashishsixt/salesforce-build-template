@@ -7,7 +7,7 @@
 	<target name="download-contrib" unless="offline">
 		<mkdir dir="lib"/>
 		<get src="http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"
-       dest="${user.home}/.ant/lib/ant-contrib-1.0b3.jar"
+       dest="${user.home}/.ant/lib"
        usetimestamp="true"/>
 	</target>
 	<target name="init-contrib" depends="download-contrib">
