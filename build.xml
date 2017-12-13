@@ -2,6 +2,7 @@
 	<property environment="env"/>
 	<property name="sf.username"      value="${env.masterUN}"/>
         <property name="sf.password"      value="${env.masterPWD}"/>
+        <property name="sf.serverurl"      value="${env.masterURL}"/>
 	<taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
 		<classpath>
 			<pathelement location="/home/travis/build/santoshkpradhan/salesforce-build-template/lib/ant-salesforce.jar"/>
