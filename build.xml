@@ -85,13 +85,12 @@
 		<git />
     </target>
 
-	<loadfile property="contents" srcfile="target.txt"/>
-
 	<target name="compile">
 		<delete dir="target"/>
 		<mkdir dir="target"/>
 		<echo>DEPLOYMENT COMPONENTS</echo>
 		<echo>${contents}</echo>
+		<loadfile property="contents" srcfile="target.txt"/>
 		<for param="file" list="${contents}" delimiter="${line.separator}">
 			<sequential>
 				<if>
