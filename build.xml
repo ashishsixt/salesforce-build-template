@@ -7,12 +7,12 @@
 	<target name="download-contrib" unless="offline">
 		<mkdir dir="lib"/>
 		<get src="http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"
-       dest="/home/travis/.ant/lib/ant-contrib-1.0b3.jar"
+       dest="/home/travis/build/santoshkpradhan/.ant/lib/ant-contrib-1.0b3.jar"
        usetimestamp="true"/>
 	</target>
 	<target name="init-contrib" depends="download-contrib">
 		<path id="contrib.path">
-    		<fileset dir="/home/travis/.ant/lib" includes="*.jar"/>
+    		<fileset dir="/home/travis/build/santoshkpradhan/.ant/lib" includes="*.jar"/>
 		</path>
 		<taskdef resource="net/sf/antcontrib/antlib.xml" 
            classpathref="contrib.path"/>
