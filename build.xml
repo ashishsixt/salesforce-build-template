@@ -1,4 +1,9 @@
-<project name="test" default="compile" xmlns:sf="antlib:com.salesforce">
+<project name="test" default="compile">
+	<taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+		<classpath>
+			<pathelement location="/home/travis/build/santoshkpradhan/salesforce-build-template/lib/ant-salesforce.jar"/>
+		</classpath>
+	</taskdef>
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
 			<pathelement location="/home/travis/build/santoshkpradhan/salesforce-build-template/lib/ant-contrib-1.0b3.jar"/>
