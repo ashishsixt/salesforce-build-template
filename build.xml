@@ -37,7 +37,8 @@
 				<arg value="--name-only" />
 				<arg value="--since='@{args}'" />
 			</exec>
-			<echo>Changed Files: \n ${gitx.result}</echo>
+			<echo>Changed Files: </echo>
+			<echo>${gitx.result}</echo>
 			<echo file="target.txt" append="false">${gitx.result}</echo>
 			<replace file="target.txt">
 				<replacetoken>src/classes/</replacetoken>
