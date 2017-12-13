@@ -5,7 +5,7 @@
 		</classpath>
 	</taskdef>
     <macrodef name="git">
-		<attribute name="args" />
+		<attribute name="args" default="6 hours ago"/>
 		<sequential>
 			<exec executable="git" outputproperty="gitx.result">
 				<arg value="log" />
@@ -128,7 +128,10 @@
     	<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="target" rollbackOnError="true"/>
     </target>
 
-	<target name="sync" depends="gitStatus,compile,packager,deploy">
+	<target name="syncM" depends="gitStatus,compile,packager,deploy">
+		
+    </target>
+	<target name="sync" depends="compile,packager,deploy">
 		
     </target>
 </project>
