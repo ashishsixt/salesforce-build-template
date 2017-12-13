@@ -18,6 +18,11 @@
 			<pathelement location="lib/ant-contrib-1.0b3.jar"/>
 		</classpath>
 	</taskdef>
+	<taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+		<classpath>
+			<pathelement location="lib/ant-salesforce.jar"/>
+		</classpath>
+	</taskdef>
 	<!-- <target name="download-contrib" unless="offline">
 		<mkdir dir="lib"/>
 		<get src="http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"
@@ -59,7 +64,6 @@
 		</sequential>
 	</macrodef>
     <macrodef name="git">
-		<attribute name="args" default="6 hours ago"/>
 		<sequential>
 			<exec executable="git" outputproperty="gitx.result">
 				<arg value="log" />
@@ -86,6 +90,10 @@
 		<!-- <input message="Please enter date/time from which you want the tracking?" addproperty="gitx.since" /> -->
         <!-- args="${gitx.since}"  -->
 		<git />
+    </target>
+    <target name="gitStatusFrom">
+		<input message="Please enter date/time from which you want the tracking?" addproperty="gitx.since" />
+        <gitSince args="${gitx.since}"/>
     </target>
 
 	<target name="compile">
@@ -181,10 +189,15 @@
     	<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="target" rollbackOnError="true"/>
     </target>
 
+    <target name="deployFromLocal">
+		<echo>${sf.maxPoll}</echo>
+    	<sf:deploy username="pradhan.santosh@circleci.com" password="CircleTest1" serverurl="https://login.salesforce.com" maxPoll="${sf.maxPoll}" deployRoot="target" rollbackOnError="true"/>
+    </target>
+
 	<target name="validate" depends="gitStatus,compile,packager">
 		
     </target>
-	<target name="syncM" depends="gitStatus,compile,packager,deploy">
+	<target name="syncM" depends="gitStatusFrom,compile,packager,deployFromLocal">
 		
     </target>
 	<target name="sync" depends="gitStatus,compile,packager,deploy">
